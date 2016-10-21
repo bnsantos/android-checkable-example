@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.bnsantos.checkable.CheckableFrameLayout
   android:id="@+id/itemLayout"
   android:layout_width="match_parent"
   android:layout_height="116dp"
@@ -18,4 +18,11 @@
     fresco:failureImage="@android:color/transparent"
     fresco:failureImageScaleType="fitCenter"
     android:layout_gravity="center_horizontal|center_vertical"/>
-</RelativeLayout>
+  <ImageView
+    android:id="@+id/selector"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:duplicateParentState="true"
+    android:layout_gravity="right|end|top"
+    android:src="@drawable/section_selector"/>
+</com.bnsantos.checkable.CheckableFrameLayout>

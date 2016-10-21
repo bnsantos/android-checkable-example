@@ -7,8 +7,10 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bnsantos.checkable.databinding.ActivityMainBinding;
@@ -16,6 +18,9 @@ import com.bnsantos.checkable.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
   private ActivityMainBinding mBinding;
   private AnimalsAdapter mAdapter;
+  private ActionMode.Callback mActionModeCallBack;
+  private ActionMode mActionMode;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
   private void initAdapter(){
     mBinding.recyclerView.setLayoutManager(create(2));
-    mAdapter = new AnimalsAdapter(((App) getApplication()).loadData());
+    mAdapter = new AnimalsAdapter(this, ((App) getApplication()).loadData(), getResources().getDimensionPixelOffset(R.dimen.padding));
     mBinding.recyclerView.setAdapter(mAdapter);
   }
 
@@ -91,5 +96,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
       }
     });
     return layoutManager;
+  }
+
+  public void startActionMode(){
+    mActionModeCallBack = new ActionMode.Callback() {
+      @Override
+      public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_action_mode, menu);
+        return true;
+      }
+
+      @Override
+      public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+      }
+
+      @Override
+      public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        return false;
+      }
+
+      @Override
+      public void onDestroyActionMode(ActionMode mode) {
+        finishActionMode();
+      }
+    };
+    mActionMode = startSupportActionMode(mActionModeCallBack);
+  }
+
+  public void finishActionMode() {
+    if(mActionMode!=null){
+      mActionMode.finish();
+    }
+    mAdapter.finishActionMode();
+  }
+
+  public void setActionModeTitle(String title){
+    if(mActionMode != null){
+      mActionMode.setTitle(title);
+    }
   }
 }

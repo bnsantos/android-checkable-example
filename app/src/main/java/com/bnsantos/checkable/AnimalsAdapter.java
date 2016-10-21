@@ -2,9 +2,11 @@ package com.bnsantos.checkable;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bnsantos.checkable.models.Animal;
@@ -29,12 +31,17 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
   private List<Item> mItems;
   private ResizeOptions mResizeOptions;
   private int mCurrentSectionMode;
+  private final MainActivity mListener;
+  private SparseBooleanArray mSelected = new SparseBooleanArray();
+  private final int mPadding;
 
-  public AnimalsAdapter(List<Animal> animals) {
+  public AnimalsAdapter(MainActivity listener, List<Animal> animals, int padding) {
+    mListener = listener;
     this.mAnimals = animals;
     mCurrentSectionMode = -1;
     setUpSection(SECTION_SPECIE);
     mResizeOptions = new ResizeOptions(192, 192); //TODO work on this
+    mPadding = padding;
   }
 
   public void setUpSection(int sectionSpecie) {
@@ -48,7 +55,7 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         //TODO improve this later
         if (current == null) {
           current = new Section("Cat");
-          mItems.add(new Item(null, current));
+          mItems.add(new Item(null, current, 0));
         }
         for (Animal animal : mAnimals) {
           if(animal instanceof Cat){
@@ -56,11 +63,11 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
           }else{
             if (current.name.equals("Cat")) {
               current = new Section("Dog");
-              mItems.add(new Item(null, current));
+              mItems.add(new Item(null, current, 0));
             }
             current.count++;
           }
-          mItems.add(new Item(animal, null));
+          mItems.add(new Item(animal, current, current.count));
         }
       }else if(sectionSpecie == SECTION_BREED){
 
@@ -82,10 +89,10 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     if(holder instanceof ImageHolder) {
-      ((ImageHolder) holder).onBind(mItems.get(position).animal, mResizeOptions);
+      ((ImageHolder) holder).onBind(mItems.get(position).animal, mResizeOptions, mSelected.get(position), isActionMode(), mPadding);
     }else if(holder instanceof SectionHolder){
       Section section = mItems.get(position).section;
-      ((SectionHolder) holder).onBind(section.name, Integer.toString(section.count));
+      ((SectionHolder) holder).onBind(section.name, Integer.toString(section.count), mSelected.get(position), isActionMode());
     }
   }
 
@@ -99,53 +106,170 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     return mItems.get(position).animal == null ? HOLDER_SECTION : HOLDER_ITEM;
   }
 
-  private class ImageHolder extends RecyclerView.ViewHolder{
+  public void finishActionMode() {
+    mSelected.clear();
+    notifyDataSetChanged();
+  }
+
+  private void toggleItem(RecyclerView.ViewHolder holder){
+    int pos = holder.getAdapterPosition();
+    if(!isActionMode()){
+      mListener.startActionMode();
+      notifyDataSetChanged();
+    }
+
+    boolean selectGroup;
+    if(mSelected.get(pos)){
+      mSelected.delete(pos);
+      selectGroup = false;
+    }else{
+      mSelected.append(pos, true);
+      selectGroup = true;
+    }
+
+    notifyItemChanged(pos);
+    Item item = mItems.get(pos);
+    Section section = item.section;
+    if(section != null){
+      if(holder instanceof SectionHolder){
+          for (int i = pos + 1; i<mItems.size() && i<=pos+section.count; i++ ){
+            if(selectGroup) {
+              mSelected.append(i, true);
+            }else{
+              mSelected.delete(i);
+            }
+            notifyItemChanged(i);
+          }
+      }else {
+        if(selectGroup) {
+          section.selected++;
+        }else{
+          section.selected--;
+        }
+        int sectionPos = pos-item.sectionOffset;
+        if(section.count == section.selected){
+          mSelected.append(sectionPos, true);
+        }else{
+          mSelected.delete(sectionPos);
+        }
+        notifyItemChanged(sectionPos);
+      }
+    }
+
+    int size = mSelected.size();
+    if(size == 0){
+      mListener.finishActionMode();
+    }else {
+      mListener.setActionModeTitle(Integer.toString(size));
+    }
+  }
+
+  boolean isActionMode(){
+    return mSelected.size()!=0;
+  }
+
+  private class ImageHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
+    final CheckableFrameLayout mLayout;
     final SimpleDraweeView mDrawee;
+    final ImageView mSelector;
 
     ImageHolder(View itemView) {
       super(itemView);
+      mLayout = (CheckableFrameLayout) itemView;
       mDrawee = (SimpleDraweeView) itemView.findViewById(R.id.image);
+      mSelector = (ImageView) itemView.findViewById(R.id.selector);
+      itemView.setOnLongClickListener(this);
+      itemView.setOnClickListener(this);
     }
 
-    void onBind(Animal animal, ResizeOptions options){
+    void onBind(Animal animal, ResizeOptions options, boolean checked, boolean actionMode, int padding){
       ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(animal.getUrl())).setRotationOptions(RotationOptions.autoRotate()).setResizeOptions(options).build();
       DraweeController controller = Fresco.newDraweeControllerBuilder()
           .setImageRequest(imageRequest)
           .setOldController(mDrawee.getController())
           .build();
       mDrawee.setController(controller);
+      if(!actionMode){
+        mSelector.setVisibility(View.GONE);
+        mLayout.setPadding(0, 0, 0, 0);
+      }else{
+        mLayout.setPadding(padding, padding, padding, padding);
+        mSelector.setVisibility(View.VISIBLE);
+        mLayout.setChecked(checked);
+      }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+      toggleItem(this);
+      return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+      if (isActionMode()) {
+        toggleItem(this);
+      }
     }
   }
 
-  private class SectionHolder extends RecyclerView.ViewHolder{
+  private class SectionHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
+    private final CheckableLinearLayout mLayout;
     private final TextView mText;
     private final TextView mCount;
+    private final ImageView mSelector;
 
     SectionHolder(View itemView) {
       super(itemView);
+      mLayout = (CheckableLinearLayout) itemView;
       mText = (TextView) itemView.findViewById(R.id.text);
       mCount = (TextView) itemView.findViewById(R.id.count);
+      mSelector = (ImageView) itemView.findViewById(R.id.selector);
+      itemView.setOnLongClickListener(this);
+      itemView.setOnClickListener(this);
     }
 
-    void onBind(String section, String count){
+    void onBind(String section, String count, boolean checked, boolean actionMode){
       mText.setText(section);
       mCount.setText(count);
+      if(!actionMode){
+        mSelector.setVisibility(View.GONE);
+      }else{
+        mSelector.setVisibility(View.VISIBLE);
+        mLayout.setChecked(checked);
+      }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+      toggleItem(this);
+      return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+      if (isActionMode()) {
+        toggleItem(this);
+      }
     }
   }
 
   private class Item {
-    private final Animal animal;
-    private final Section section;
+    final Animal animal;
+    final Section section;
+    final int sectionOffset;
 
-    Item(Animal animal, Section section) {
+    Item(Animal animal, Section section, int sectionOffset) {
       this.animal = animal;
       this.section = section;
+      this.sectionOffset = sectionOffset;
     }
   }
 
   private class Section{
     final String name;
     int count;
+    int selected;
 
     Section(String name) {
       this.name = name;
