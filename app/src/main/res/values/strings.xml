@@ -1,8 +1,94 @@
 <resources>
   <string name="app_name">CheckableExample</string>
-
   <string name="navigation_drawer_open">Open navigation drawer</string>
   <string name="navigation_drawer_close">Close navigation drawer</string>
-
   <string name="action_settings">Settings</string>
+  <string name="app_description">Simple example of Checkable views and grouping on RecyclerView</string>
+  <string name="separate_specie">Specie</string>
+  <string name="separate_breed">Breed</string>
+  <string name="separate_by">Separate by:</string>
+  <string name="items_column">Items per column:</string>
+  <string name="two_items">Two</string>
+  <string name="three_items">Three</string>
+
+  <array name="cats_siamese">
+    <item>http://cdn2-www.cattime.com/assets/uploads/gallery/siamese-cats-and-kittens-pictures/siamese-cat-kitten-picture-5.jpg</item>
+    <item>http://d21vu35cjx7sd4.cloudfront.net/dims3/MMAH/thumbnail/645x380/quality/90/?url=http%3A%2F%2Fs3.amazonaws.com%2Fassets.prod.vetstreet.com%2Ff7%2Fe1c470a33411e087a80050568d634f%2Ffile%2FSiamese-1-645mk062211.jpg</item>
+    <item>http://www.catfactsforkids.com/wp-content/uploads/2014/07/Siamese-Cats.jpg</item>
+    <item>http://va.siameserescue.org/images/teammeezer.jpg</item>
+    <item>http://thiswallpaper.com/cdn/hdwallpapers/904/siamese%20cat%20wide%20hd%20wallpaper.jpg</item>
+  </array>
+
+  <array name="cats_persian">
+    <item>http://cdn1-www.cattime.com/assets/uploads/gallery/persian-cats-and-kittens/persian-cats-and-kittens-8.jpg</item>
+    <item>http://purrfectcatbreeds.com/wp-content/uploads/2014/06/persian-cat4.jpg</item>
+    <item>https://ae01.alicdn.com/kf/HTB1xnEAKVXXXXb4XFXXq6xXFXXXr/Lovely-white-font-b-persian-b-font-font-b-cat-b-font-font-b-kitten-b.jpg</item>
+    <item>http://images.mentalfloss.com/sites/default/files/styles/article_640x430/public/persianhed.png</item>
+    <item>http://cdn.earthporm.com/wp-content/uploads/2014/10/garfi-evil-grumpy-persian-cat-10__700.jpg</item>
+  </array>
+
+  <array name="cats_bengals">
+    <item>http://www.bengalcatworld.com/home/wp-content/uploads/2012/02/bengal-cats-and-kittens-028.jpg</item>
+    <item>http://purrfectcatbreeds.com/wp-content/uploads/2014/06/bengal1.jpg</item>
+    <item>http://www.bengalcatworld.com/home/wp-content/uploads/2012/02/bengal-cat-in-sun.jpg</item>
+    <item>http://www.catster.com/wp-content/uploads/2015/06/600-big-eyed-bengal.jpg</item>
+    <item>http://kucingku.topv7.com/wp-content/uploads/2014/12/Sonnet1-1024x901.jpg</item>
+  </array>
+
+  <array name="cats_bombay">
+    <item>https://files.graphiq.com/585/media/images/t2/Bombay_5606545.jpg</item>
+    <item>https://i.ytimg.com/vi/v_Jw2fiIfoo/maxresdefault.jpg</item>
+    <item>http://www.playfulkitty.net/wp-content/uploads/2014/10/Bombay-cat-Bhavana-flickr.jpg</item>
+    <item>http://cdn3-www.cattime.com/assets/uploads/gallery/bombay-cats-and-kittens/bombay-cats-and-kittens-5.jpg</item>
+    <item>http://purrfectcatbreeds.com/wp-content/uploads/2014/06/bombay3.jpg</item>
+  </array>
+
+  <array name="cats_unknown">
+    <item>http://ericsteinborn.com/github-for-cats/img/forcats.png</item>
+    <item>https://i.ytimg.com/vi/mW3S0u8bj58/maxresdefault.jpg</item>
+    <item>https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg</item>
+    <item>http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg</item>
+    <item>https://d2pu2bk1b66iw6.cloudfront.net/photos/2015/11/17/122-124625-shark-cat-1447792237.png</item>
+  </array>
+
+  <array name="dogs_pug">
+    <item>http://d21vu35cjx7sd4.cloudfront.net/dims3/MMAH/crop/0x0%2B0%2B0/resize/645x380/quality/90/?url=http%3A%2F%2Fs3.amazonaws.com%2Fassets.prod.vetstreet.com%2F1d%2Fe0aab0a8a811e0a0d50050568d634f%2Ffile%2Fpug-1-645mk070411.jpg</item>
+    <item>http://www.pets4homes.co.uk/images/articles/2918/large/five-universal-personality-traits-of-the-pug-dog-556dc087b7caf.jpg</item>
+    <item>http://www.dog-obedience-training-review.com/sites/default/files/Pug-Puppy.jpg</item>
+    <item>http://3.bp.blogspot.com/-glz32AX3sso/VmbKFKGibvI/AAAAAAAAA2k/NoQ6BsMMNW4/s1600/pug-dog-encephalitis.jpg</item>
+    <item>https://irp-cdn.multiscreensite.com/94f3e251/dms3rep/multi/mobile/pug-dog-in-cape-1-251x312.dm.edit_Lxi4O2.jpg</item>
+  </array>
+
+  <array name="dogs_bulldog">
+    <item>http://justadogg.info/wp-content/uploads/2013/07/bulldog-pictures1.jpg</item>
+    <item>https://upload.wikimedia.org/wikipedia/commons/d/db/English_Bulldog_about_to_sleep.jpg</item>
+    <item>http://cf.ltkcdn.net/dogs/images/std/131726-400x300-Sleeping-Bulldog.jpg</item>
+    <item>http://www.dogbreedinfo.com/images26/FrenchBulldogPurebredDogBiscuit6YearsOldTim1.JPG</item>
+    <item>http://cdn2-www.dogtime.com/assets/uploads/gallery/french-bulldog-dog-breed-pictures/7-silverbrown.jpg</item>
+  </array>
+
+  <array name="dogs_labrador">
+    <item>http://cdn3-www.dogtime.com/assets/uploads/gallery/labrador-retriever-dog-breed-pictures/labrador-retriever-dog-pictures-4.jpg</item>
+    <item>https://s.graphiq.com/sites/default/files/stories/t4/labrador_retrievers_13252_9540.jpg</item>
+    <item>http://cdn2-www.dogtime.com/assets/uploads/gallery/labrador-retriever-dog-breed-pictures/labrador-retriever-dog-pictures-7.jpg</item>
+    <item>http://bunkblog.net/wp-content/uploads/2013/03/Lab-6.jpg</item>
+    <item>https://i.ytimg.com/vi/AGgs9nwknGE/maxresdefault.jpg</item>
+  </array>
+
+  <array name="dogs_siberian_husky">
+    <item>https://s-media-cache-ak0.pinimg.com/originals/b7/48/bc/b748bc41ebebbbda9c56d0a90edb9f30.jpg</item>
+    <item>http://nextranks.com/data_images/dogs/siberian-husky/siberian-husky-03.jpg</item>
+    <item>https://s-media-cache-ak0.pinimg.com/originals/68/7e/32/687e32e3d2d6b30ae1bc8204f82f2946.jpg</item>
+    <item>http://inspirationseek.com/wp-content/uploads/2014/09/Siberian-Husky-Dogs-HD-Wallpaper.jpg</item>
+    <item>http://bamahuskies.com/wp-content/uploads/2014/10/Husky-dog-Nick.jpg</item>
+  </array>
+
+  <array name="dogs_unknown">
+    <item>http://images.mentalfloss.com/sites/default/files/styles/article_640x430/public/istock_000073632459_small.jpg</item>
+    <item>http://petapixel.com/assets/uploads/2016/04/chihuahua-820087_1920-800x532.jpg</item>
+    <item>http://r.ddmcdn.com/s_f/o_1/cx_507/cy_0/cw_1725/ch_1725/w_720/APL/uploads/2012/05/dog-afraid-article.jpg</item>
+    <item>http://i.huffpost.com/gen/3754046/original.jpg</item>
+    <item>https://s-media-cache-ak0.pinimg.com/originals/ab/c4/b9/abc4b9f991be64ba9daee79c5489a4ab.jpg</item>
+    <item>https://images-na.ssl-images-amazon.com/images/G/01/img15/pet-products/small-tiles/23695_pets_vertical_store_dogs_small_tile_8._CB312176604_.jpg</item>
+  </array>
 </resources>
