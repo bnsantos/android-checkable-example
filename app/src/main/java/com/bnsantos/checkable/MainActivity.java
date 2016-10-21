@@ -8,16 +8,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.bnsantos.checkable.databinding.ActivityMainBinding;
-import com.bnsantos.checkable.models.Animal;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
   private ActivityMainBinding mBinding;
+  private AnimalsAdapter mAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -66,20 +64,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   }
 
   private void setItemsPerColumn(int i) {
-    mBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, i));
+    mBinding.recyclerView.setLayoutManager(create(i));
     mBinding.recyclerView.getAdapter().notifyDataSetChanged();
   }
 
   private void initAdapter(){
-    mBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-    mBinding.recyclerView.setAdapter(new AnimalsAdapter(((App) getApplication()).loadData()));
+    mBinding.recyclerView.setLayoutManager(create(2));
+    mAdapter = new AnimalsAdapter(((App) getApplication()).loadData());
+    mBinding.recyclerView.setAdapter(mAdapter);
   }
 
   private void groupBySpecie() {
-    Toast.makeText(this, "TODO - Group by specie", Toast.LENGTH_SHORT).show();
+    mAdapter.setUpSection(AnimalsAdapter.SECTION_SPECIE);
   }
 
   private void groupByBreed() {
-    Toast.makeText(this, "TODO - Group by breed", Toast.LENGTH_SHORT).show();
+    mAdapter.setUpSection(AnimalsAdapter.SECTION_BREED);
+  }
+
+  private RecyclerView.LayoutManager create(final int span){
+    GridLayoutManager layoutManager = new GridLayoutManager(this, span);
+    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+      @Override
+      public int getSpanSize(int position) {
+        return mAdapter.getItemViewType(position) == AnimalsAdapter.HOLDER_ITEM ? 1 : span;
+      }
+    });
+    return layoutManager;
   }
 }
