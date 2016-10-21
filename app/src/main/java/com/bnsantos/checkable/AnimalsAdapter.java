@@ -20,6 +20,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -52,17 +53,15 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
       Section current = null;
       if(sectionSpecie == SECTION_SPECIE){
-        //TODO improve this later
-        if (current == null) {
-          current = new Section("Cat");
-          mItems.add(new Item(null, current, 0));
-        }
+        int specieIdx = 0;
+        current = new Section(App.SPECIES[specieIdx++]);
+        mItems.add(new Item(null, current, 0));
         for (Animal animal : mAnimals) {
           if(animal instanceof Cat){
             current.count++;
           }else{
-            if (current.name.equals("Cat")) {
-              current = new Section("Dog");
+            if (!current.name.equals(App.SPECIES[1])) {
+              current = new Section(App.SPECIES[specieIdx++]);
               mItems.add(new Item(null, current, 0));
             }
             current.count++;
@@ -70,9 +69,22 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
           mItems.add(new Item(animal, current, current.count));
         }
       }else if(sectionSpecie == SECTION_BREED){
-
+        List<String> breeds = new ArrayList<>();
+        breeds.addAll(Arrays.asList(App.CATS_BREEDS));
+        breeds.addAll(Arrays.asList(App.DOGS_BREEDS));
+        for (String breed : breeds) {
+          current = new Section(breed);
+          mItems.add(new Item(null, current, 0));
+          for (Animal animal : mAnimals) {
+            if(animal.getBreed().equals(breed)){
+              current.count++;
+              mItems.add(new Item(animal, current, current.count));
+            }
+          }
+        }
       }
-     }
+    }
+    notifyDataSetChanged();
   }
 
   @Override
@@ -132,14 +144,14 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     Section section = item.section;
     if(section != null){
       if(holder instanceof SectionHolder){
-          for (int i = pos + 1; i<mItems.size() && i<=pos+section.count; i++ ){
-            if(selectGroup) {
-              mSelected.append(i, true);
-            }else{
-              mSelected.delete(i);
-            }
-            notifyItemChanged(i);
+        for (int i = pos + 1; i<mItems.size() && i<=pos+section.count; i++ ){
+          if(selectGroup) {
+            mSelected.append(i, true);
+          }else{
+            mSelected.delete(i);
           }
+          notifyItemChanged(i);
+        }
       }else {
         if(selectGroup) {
           section.selected++;
@@ -148,11 +160,16 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         int sectionPos = pos-item.sectionOffset;
         if(section.count == section.selected){
-          mSelected.append(sectionPos, true);
+          if(selectGroup) {
+            mSelected.append(sectionPos, true);
+            notifyItemChanged(sectionPos);
+          }
         }else{
-          mSelected.delete(sectionPos);
+          if(!selectGroup) {
+            mSelected.delete(sectionPos);
+            notifyItemChanged(sectionPos);
+          }
         }
-        notifyItemChanged(sectionPos);
       }
     }
 

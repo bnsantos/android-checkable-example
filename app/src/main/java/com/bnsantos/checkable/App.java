@@ -13,7 +13,12 @@ import java.util.List;
 
 
 public class App extends Application {
-  private final int[] CATS = new int[]{
+  public static final String[] SPECIES = new String[]{
+      "cats",
+      "dogs"
+  };
+
+  public static final int[] CATS = new int[]{
       R.array.cats_siamese,
       R.array.cats_persian,
       R.array.cats_bengals,
@@ -21,7 +26,7 @@ public class App extends Application {
       R.array.cats_unknown
   };
 
-  private final String[] CATS_BREEDS = new String[]{
+  public static final String[] CATS_BREEDS = new String[]{
       "siamese",
       "persian",
       "bengals",
@@ -29,7 +34,7 @@ public class App extends Application {
       "unknown"
   };
 
-  private final int[] DOGS = new int[]{
+  public static final int[] DOGS = new int[]{
       R.array.dogs_pug,
       R.array.dogs_bulldog,
       R.array.dogs_labrador,
@@ -37,7 +42,7 @@ public class App extends Application {
       R.array.dogs_unknown
   };
 
-  private final String[] DOGS_BREEDS = new String[]{
+  public static final String[] DOGS_BREEDS = new String[]{
       "pug",
       "bulldog",
       "labrador",
