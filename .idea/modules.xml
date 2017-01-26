@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CheckableExample.iml" filepath="$PROJECT_DIR$/CheckableExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-checkable-example.iml" filepath="$PROJECT_DIR$/android-checkable-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

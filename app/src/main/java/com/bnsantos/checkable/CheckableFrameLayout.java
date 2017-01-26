@@ -32,31 +32,56 @@ import android.widget.LinearLayout;
  */
 public class CheckableFrameLayout extends FrameLayout implements Checkable {
   private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
+  private static final int[] SELECTABLE_STATE_SET = {R.attr.selectable};
 
   private boolean mChecked = false;
+  private boolean mSelectable;
 
   public CheckableFrameLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
+  @Override
   public boolean isChecked() {
     return mChecked;
   }
 
-  public void setChecked(boolean b) {
-    if (b != mChecked) {
-      mChecked = b;
+  @Override
+  public void setChecked(boolean checked) {
+    if (checked != mChecked) {
+      mChecked = checked;
       refreshDrawableState();
+    }
+
+    if(checked){
+      setPadding(20, 20, 20, 20);
+    }else {
+      setPadding(0, 0, 0, 0);
     }
   }
 
+  @Override
   public void toggle() {
     setChecked(!mChecked);
   }
 
+  public boolean isSelectable(){
+    return mSelectable;
+  }
+
+  public void setSelectable(boolean selectable){
+    if (selectable != mSelectable) {
+      mSelectable = selectable;
+      refreshDrawableState();
+    }
+  }
+
   @Override
   public int[] onCreateDrawableState(int extraSpace) {
-    final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
+    final int[] drawableState = super.onCreateDrawableState(extraSpace + 2);
+    if(isSelectable()){
+      mergeDrawableStates(drawableState, SELECTABLE_STATE_SET);
+    }
     if (isChecked()) {
       mergeDrawableStates(drawableState, CHECKED_STATE_SET);
     }

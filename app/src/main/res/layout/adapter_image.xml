@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.bnsantos.checkable.CheckableFrameLayout
-  android:id="@+id/itemLayout"
-  android:layout_width="match_parent"
-  android:layout_height="116dp"
-  android:layout_marginBottom="6dp"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-  <com.facebook.drawee.view.SimpleDraweeView
-    android:id="@+id/image"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:tag="image"
+    android:id="@+id/itemLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    fresco:fadeDuration="300"
-    fresco:placeholderImage="@android:color/transparent"
-    fresco:placeholderImageScaleType="fitCenter"
-    fresco:failureImage="@android:color/transparent"
-    fresco:failureImageScaleType="fitCenter"
-    android:layout_gravity="center_horizontal|center_vertical"/>
-  <ImageView
-    android:id="@+id/selector"
-    android:layout_width="24dp"
-    android:layout_height="24dp"
-    android:duplicateParentState="true"
-    android:layout_gravity="right|end|top"
-    android:src="@drawable/section_selector"/>
+    android:layout_height="116dp"
+    android:layout_marginBottom="6dp"
+    android:background="@drawable/checkable_bg">
+  <com.facebook.drawee.view.SimpleDraweeView
+      android:id="@+id/image"
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:fresco="http://schemas.android.com/apk/res-auto"
+      android:tag="image"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      fresco:fadeDuration="300"
+      fresco:placeholderImage="@android:color/transparent"
+      fresco:placeholderImageScaleType="fitCenter"
+      fresco:failureImage="@android:color/transparent"
+      fresco:failureImageScaleType="fitCenter"
+      android:layout_gravity="center_horizontal|center_vertical"/>
 </com.bnsantos.checkable.CheckableFrameLayout>

@@ -188,13 +188,11 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
   private class ImageHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
     final CheckableFrameLayout mLayout;
     final SimpleDraweeView mDrawee;
-    final ImageView mSelector;
 
     ImageHolder(View itemView) {
       super(itemView);
       mLayout = (CheckableFrameLayout) itemView;
       mDrawee = (SimpleDraweeView) itemView.findViewById(R.id.image);
-      mSelector = (ImageView) itemView.findViewById(R.id.selector);
       itemView.setOnLongClickListener(this);
       itemView.setOnClickListener(this);
     }
@@ -206,14 +204,8 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
           .setOldController(mDrawee.getController())
           .build();
       mDrawee.setController(controller);
-      if(!actionMode){
-        mSelector.setVisibility(View.GONE);
-        mLayout.setPadding(0, 0, 0, 0);
-      }else{
-        mLayout.setPadding(padding, padding, padding, padding);
-        mSelector.setVisibility(View.VISIBLE);
-        mLayout.setChecked(checked);
-      }
+      mLayout.setSelectable(actionMode);
+      mLayout.setChecked(checked);
     }
 
     @Override
