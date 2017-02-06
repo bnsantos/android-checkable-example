@@ -45,6 +45,7 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.bnsantos.checkable.MainActivity">
+
         <android.support.v7.widget.RecyclerView
           android:id="@+id/recyclerView"
           android:layout_width="match_parent"

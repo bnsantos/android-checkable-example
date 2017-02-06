@@ -186,26 +186,19 @@ public class AnimalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
   }
 
   private class ImageHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
-    final CheckableFrameLayout mLayout;
-    final SimpleDraweeView mDrawee;
+    final DraweeCheckable mView;
 
     ImageHolder(View itemView) {
       super(itemView);
-      mLayout = (CheckableFrameLayout) itemView;
-      mDrawee = (SimpleDraweeView) itemView.findViewById(R.id.image);
       itemView.setOnLongClickListener(this);
       itemView.setOnClickListener(this);
+      mView = (DraweeCheckable) itemView;
     }
 
     void onBind(Animal animal, ResizeOptions options, boolean checked, boolean actionMode, int padding){
-      ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(animal.getUrl())).setRotationOptions(RotationOptions.autoRotate()).setResizeOptions(options).build();
-      DraweeController controller = Fresco.newDraweeControllerBuilder()
-          .setImageRequest(imageRequest)
-          .setOldController(mDrawee.getController())
-          .build();
-      mDrawee.setController(controller);
-      mLayout.setSelectable(actionMode);
-      mLayout.setChecked(checked);
+      mView.setImage(Uri.parse(animal.getUrl()), options);
+      mView.setSelectable(actionMode);
+      mView.setChecked(checked);
     }
 
     @Override
